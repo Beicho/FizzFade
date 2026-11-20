@@ -1,0 +1,1 @@
+package com.luna.common.player.mediaplayer; public abstract class PauseReason {public static final class PlayPageScreen extends PauseReason {public static final PlayPageScreen a=new PlayPageScreen();}}

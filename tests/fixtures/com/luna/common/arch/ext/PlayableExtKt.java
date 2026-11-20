@@ -1,0 +1,1 @@
+package com.luna.common.arch.ext;import com.luna.common.arch.db.entity.NetMediaType;import com.luna.common.player.queue.api.IPlayable;public final class PlayableExtKt {public static NetMediaType getMediaType(IPlayable item){return NetMediaType.TRACK;}}

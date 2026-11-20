@@ -1,0 +1,19 @@
+[versions]
+agp = "9.5.1"
+kotlin = "2.4.21"
+miuix = "0.8.8"
+activityCompose = "1.13.0"
+# 1.7.3+/2.x pull Compose 1.12; 1.7.2 matches the Compose 1.10 line miuix 0.8.8 is built on.
+haze = "1.7.2"
+xposedApi = "82"
+
+[libraries]
+miuix = { module = "top.yukonga.miuix.kmp:miuix-android", version.ref = "miuix" }
+miuix-icons = { module = "top.yukonga.miuix.kmp:miuix-icons-android", version.ref = "miuix" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+haze = { module = "dev.chrisbanes.haze:haze-android", version.ref = "haze" }
+xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposedApi" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

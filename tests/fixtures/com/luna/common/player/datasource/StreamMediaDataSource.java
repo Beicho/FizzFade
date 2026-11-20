@@ -1,0 +1,1 @@
+package com.luna.common.player.datasource; import io.github.qishui.automix.TestRuntime; public final class StreamMediaDataSource {public int closes;public int duration=180000; public void close(){if(!TestRuntime.sourceClose(this))closes++;}}

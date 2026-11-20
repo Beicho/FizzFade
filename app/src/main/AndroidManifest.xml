@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <queries><package android:name="com.luna.music" /></queries>
+    <application android:label="叠拍 FizzFade" android:icon="@drawable/ic_launcher"
+        android:theme="@style/AppTheme" android:allowBackup="false" android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true">
+        <meta-data android:name="xposedmodule" android:value="true" />
+        <meta-data android:name="xposeddescription" android:value="汽水音乐 21.6.0 自动交叉混音 + Apple Music 风格逐字歌词（实验版）" />
+        <meta-data android:name="xposedminversion" android:value="82" />
+        <meta-data android:name="xposedscope" android:resource="@array/xposed_scope" />
+        <activity android:name=".ui.MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <provider android:name=".ConfigProvider" android:authorities="io.github.qishui.automix.config"
+            android:exported="true" android:grantUriPermissions="true" />
+        <!-- The host cold-starts this process every few seconds through the provider: skip the
+             emoji font lookup the Compose dependencies would otherwise schedule at startup. -->
+        <provider android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup" android:exported="false" tools:node="merge">
+            <meta-data android:name="androidx.emoji2.text.EmojiCompatInitializer" tools:node="remove" />
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,1 @@
+package com.luna.common.player.kit.api; import com.luna.common.player.mediaplayer.MediaResType; public final class AVInfo {public MediaResType type;public AVInfo(MediaResType type){this.type=type;}public MediaResType getMediaResType(){return type;}}

@@ -1,0 +1,16 @@
+/.gradle/
+/.kotlin/
+/.idea/
+.env
+*.idsig
+/.local/
+/**/build/
+/local.properties
+/dist/
+*.jks
+*.keystore
+*.apk
+*.dex
+*.jar
+__pycache__/
+!/gradle/wrapper/gradle-wrapper.jar

@@ -1,0 +1,1 @@
+package com.luna.biz.playing.player.bach; import com.luna.common.player.PlayerType;import com.luna.common.player.bach.IInnerPlayerController;import com.luna.common.player.mediaplayer.MediaPlayerConfig; public final class MediaPlayerFactory {public PlayerType a=PlayerType.MAIN;public Object a(IInnerPlayerController i,MediaPlayerConfig c){return null;}}

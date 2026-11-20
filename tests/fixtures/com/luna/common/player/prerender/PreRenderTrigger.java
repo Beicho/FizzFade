@@ -1,0 +1,1 @@
+package com.luna.common.player.prerender; public abstract class PreRenderTrigger {public static final class RenderStart extends PreRenderTrigger {public static final RenderStart a=new RenderStart();}}
