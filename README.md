@@ -2,7 +2,9 @@
 
 叠拍是汽水音乐的 LSPosed 美化与性能优化模块。封面颜色铺进播放页，歌词跟着人声逐字亮起，底部导航换成一条悬浮玻璃栏。原来「汽水 AutoMix」里的自动接歌也在，外观和混音可以分开用。
 
-目前只适配 **汽水音乐官网版 21.6.0（100216030）**。手机需要 Android 9 或更高版本，以及支持传统 Xposed API 82 的 LSPosed。旧版汽水 AutoMix 可以直接覆盖安装。[下载 APK](https://github.com/Beicho/FizzFade/releases/latest)
+目前只适配 **汽水音乐官网版 21.6.0（100216030）**。手机需要 Android 9 或更高版本，以及支持传统 Xposed API 82 的 LSPosed。旧版汽水 AutoMix 可以直接覆盖安装。
+
+[下载汽水音乐 21.6.0（官方 APK）](https://lf9-apk.ugapk.cn/package/apk/luna/8986_100216030/luna_43074760a_v8986_100216030_8c8e_1794228360.apk?v=1794228368) · [下载叠拍模块](https://github.com/Beicho/FizzFade/releases/latest)
 
 <img src="docs/images/player-and-lyrics.webp" width="540" alt="模块内置预览：左边是圆角封面、短歌词和悬浮底栏，右边是全屏逐字歌词">
 
