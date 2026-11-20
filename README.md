@@ -1,54 +1,50 @@
 # 叠拍 FizzFade
 
-面向汽水音乐的 Android / LSPosed 模块。上一首还在收尾，下一首已经进场。两首歌的重叠时间由你设定，默认 6 秒，可调到 2–12 秒。
+叠拍原来叫「汽水 AutoMix」，是给汽水音乐接歌用的 LSPosed 模块。上一首慢慢淡出时，下一首的前奏就进来了。默认重叠 6 秒，在「混音」里可以调到 2–12 秒。
 
-**[下载 APK](https://github.com/Beicho/FizzFade/releases/latest)** · [安装与试听](#安装与试听) · [源码构建](#源码构建) · [MIT 许可](LICENSE)
+目前只适配 **汽水音乐官网版 21.6.0（100216030）**。手机需要 Android 9 或更高版本，以及支持传统 Xposed API 82 的 LSPosed。旧版汽水 AutoMix 可以直接覆盖安装。[下载 APK](https://github.com/Beicho/FizzFade/releases/latest)
 
-![混音、界面和深色模式下的混音设置，截自 Android 模拟器](docs/images/settings.png)
+![叠拍的混音设置、界面设置和深色模式](docs/images/settings.png)
 
-## 听起来有什么变化
+## 装好以后
 
-| 功能 | 播放时的表现 |
-| --- | --- |
-| 双轨过渡 | 当前曲淡出，下一首淡入。打开智能时机后，模块会根据尾奏的响度和下一首的起音调整交接点。 |
-| 对拍与轻微变速 | 两首歌都有可信拍点、速度又接近时，尝试对齐节拍。变速范围为 0.92–1.08 倍，过渡结束后回到原速。条件不足时使用普通交叉淡化。 |
-| 逐字歌词 | 有逐字时间的歌词随演唱点亮，只有逐行时间的歌词按行高亮。可以点一行跳到那句，也可以单独开启封面取色背景。 |
-| 播放页与底栏 | 可选圆角封面、暂停缩放、短歌词和悬浮玻璃底栏。混音与界面效果分别设置。 |
+1. 在 LSPosed 里启用「叠拍 FizzFade」，作用域勾选「汽水音乐」。
+2. 到系统设置里强行停止汽水音乐，再打开它。回到叠拍首页看连接状态。
+3. 在「混音」里打开「自动交叉混音」，放一个歌单，让第一首自然播到结尾。手动按下一首或拖进度条会取消这次过渡。
 
-## 安装与试听
+想听对拍效果，可以挑两首鼓点清楚、速度接近的歌，把「智能过渡时机」「预渲染下一首」和「对拍与轻微变速」都打开。接上时，下一首会稍微加速或放慢，过渡结束后回到原速。有些歌找不到稳定的拍点，这时只做淡入淡出。想知道刚才那次有没有对上，可以看首页的对拍次数。
 
-1. 准备 Android 9 或更高版本、支持传统 Xposed API 82 的 LSPosed 环境，以及**官网签名的汽水音乐 21.6.0（100216030）**。模块会核对包名、版本和签名。逐字歌词页需要 Android 10 或更高版本。
-2. 从 [Releases](https://github.com/Beicho/FizzFade/releases/latest) 安装 APK。在 LSPosed 启用「叠拍 FizzFade」，作用域勾选汽水音乐（`com.luna.music`）。原版汽水 AutoMix 用户可直接覆盖安装。
-3. 强行停止汽水音乐并重新打开，在叠拍首页确认模块已连接。在「混音」开启自动交叉混音，以默认 6 秒听完一首歌的结尾。
-4. 想试对拍时，再打开智能过渡时机、预渲染下一首和对拍与轻微变速。选两首节奏稳定、速度接近的完整歌曲，自然播放到交接处。首页可分别查看完成过渡和确认对拍的次数。
+试播、广告、视频、单曲循环和睡眠定时都按汽水原来的方式播放。预渲染会提前准备下一首，可能多用一些流量。
 
-暂停、拖进度或手动切歌会取消正在进行的过渡。广告、试播、视频、单曲循环和睡眠定时沿用汽水自身行为。双轨重叠及预渲染会增加一段时间的解码负载，并可能增加流量。
+## 歌词和播放页
 
-**遇到问题**　首页提示模块版本过旧时，强行停止并重开汽水。反馈时附上 Android、LSPosed 和汽水版本，以及问题发生时的操作。「更多」可以导出诊断日志，公开分享前请检查其中的设备信息。
+这些开关都在「界面」，可以和混音分开用。逐字歌词页需要 Android 10 或更高版本。有逐字时间的歌会跟着人声一个字一个字亮起来，只有逐行时间的就整行高亮。打开「点歌词跳转」后，想重听哪句就点哪句。
 
-## 源码构建
+播放页可以换圆角封面、用封面颜色做背景，也可以单独开封面下方的短歌词或底部的悬浮玻璃栏。改完设置如果看到重启提示，强行停止并重开汽水就行。
 
-需要 JDK 17、Android SDK Platform 36 和 Build Tools 36.0.0。设置 `JAVA_HOME` 和 `ANDROID_HOME` 后运行以下命令。调试包位于 `app/build/outputs/apk/debug/app-debug.apk`，使用本地调试证书。
+遇到问题可以[开个 issue](https://github.com/Beicho/FizzFade/issues)。写上 Android、LSPosed 和汽水的版本，再说说是哪一步出了问题。「更多」里可以导出日志，上传前记得看一眼里面的设备信息。
+
+<details>
+<summary>自己编译</summary>
+
+装好 JDK 17、Android SDK Platform 36 和 Build Tools 36.0.0，设好 `JAVA_HOME` 和 `ANDROID_HOME`，在项目根目录运行：
 
 ```bash
 ./gradlew :app:assembleDebug
-bash scripts/test.sh
-bash scripts/test-host.sh
 ```
 
-要生成可分发的签名 APK，另需 Python 3。通过环境变量提供 `SIGNING_KEY`（密钥库绝对路径）、`SIGNING_ALIAS`、`SIGNING_STORE_PASSWORD`；密钥口令不同时另设 `SIGNING_KEY_PASSWORD`。运行 `bash scripts/build-gradle.sh`，APK 和校验文件输出到 `dist/`。自行签名的构建与公开版使用不同证书时，Android 会拒绝覆盖安装。
+APK 在 `app/build/outputs/apk/debug/app-debug.apk`。调试包用本机证书签名，无法覆盖安装 Releases 里的版本。
 
-### 代码入口
+跑测试用下面两条命令。手头有适配版本的官网 APK，也可以用 Python 3 检查播放器接口。
 
-| 位置 | 内容 |
-| --- | --- |
-| [MixManager.java](app/src/main/java/io/github/qishui/automix/MixManager.java) | 协调下一首预渲染、队列交接和双轨音量 |
-| [BeatMatch.java](app/src/main/java/io/github/qishui/automix/BeatMatch.java) | 判断节拍匹配条件并计算变速与对齐位置 |
-| [设置界面](app/src/main/kotlin/io/github/qishui/automix/ui) | 混音、歌词与播放页开关，以及状态和诊断 |
-| [测试](tests) | 核心逻辑、宿主替身、播放器与歌词模型 |
+```bash
+bash scripts/test.sh
+bash scripts/test-host.sh
+python3 scripts/verify_host.py /path/to/qishui.apk --output host-contract.json
+```
 
-宿主适配可以用自行取得的官网 APK 核验。运行 `python3 scripts/verify_host.py /path/to/qishui.apk --output host-contract.json`，即可检查模块依赖的 102 项 DEX 声明。JVM 回归覆盖播放线程、暂停、过渡取消及音频缓冲区，但对拍听感和长时间后台稳定性仍需在目标手机上验证。
+要用自己的证书打包，设置 `SIGNING_KEY`（密钥库绝对路径）、`SIGNING_ALIAS` 和 `SIGNING_STORE_PASSWORD`。如果密钥和密钥库的密码不同，再设 `SIGNING_KEY_PASSWORD`。运行 `bash scripts/build-gradle.sh`，签名 APK 和校验文件会放在 `dist/` 下。
 
-## 许可与致谢
+</details>
 
-原创代码沿用 [MIT License](LICENSE)。玻璃折射效果移植自 Kyant 的 AndroidLiquidGlass，部分图标来自 Google Material Symbols，归属及许可证见[第三方声明](docs/THIRD_PARTY_NOTICES.md)。叠拍是独立社区项目，与汽水音乐官方无隶属关系。
+叠拍与汽水音乐官方无关。原创代码采用 [MIT 许可](LICENSE)。玻璃效果来自 Kyant 的 AndroidLiquidGlass，部分图标来自 Google Material Symbols，详见[第三方声明](docs/THIRD_PARTY_NOTICES.md)。
