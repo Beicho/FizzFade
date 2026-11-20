@@ -73,3 +73,5 @@ python3 scripts/verify_host.py /path/to/qishui.apk --output host-contract.json
 </details>
 
 叠拍与汽水音乐官方无关。原创代码采用 [MIT 许可](LICENSE)。玻璃效果来自 Kyant 的 AndroidLiquidGlass，部分图标来自 Google Material Symbols，详见[第三方声明](docs/THIRD_PARTY_NOTICES.md)。
+
+叠拍支持 [LINUX DO 社区](https://linux.do/)。
