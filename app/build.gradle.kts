@@ -11,8 +11,8 @@ android {
         applicationId = "io.github.qishui.automix"
         minSdk = 28
         targetSdk = 35
-        versionCode = 24
-        versionName = "0.6.1"
+        versionCode = 25
+        versionName = "0.6.2"
     }
 
     buildTypes {
