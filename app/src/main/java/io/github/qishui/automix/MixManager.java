@@ -29,7 +29,7 @@ final class MixManager {
     private final Map<Object, Active> retainedSources = Collections.synchronizedMap(new WeakHashMap<>());
     private volatile MixConfig config = MixConfig.unavailable();
     private volatile Active active;
-    private volatile String status = "已接入汽水 21.6.0，等待音乐播放";
+    private volatile String status = "已接入汽水，等待音乐播放";
     private volatile int completed;
     private int beatCompleted;
     private volatile boolean stopped;
@@ -155,6 +155,7 @@ final class MixManager {
     MixManager(HostBridge bridge, HostDiagnostics diagnostics) {
         this.bridge = bridge;
         this.diagnostics = diagnostics;
+        status = "已接入汽水 " + bridge.hostBuild + "，等待音乐播放";
         audio = new AudioSignals(diagnostics);
         intro = new IntroAnalyzer(bridge, diagnostics, audio);
         recovery = new TempoRecovery(bridge, diagnostics, audio);
@@ -240,7 +241,7 @@ final class MixManager {
         if (values != null) {
             String previous = configSummary;
             applyConfig(values);
-            if (!configConnected) status = "已接入汽水 21.6.0，等待音乐播放";
+            if (!configConnected) status = "已接入汽水 " + bridge.hostBuild + "，等待音乐播放";
             configConnected = true;
             if (!configSummary.equals(previous)) diagnostics.event("config_read_ok", configSummary);
         } else {

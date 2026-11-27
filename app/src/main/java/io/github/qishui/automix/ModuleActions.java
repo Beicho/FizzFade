@@ -73,7 +73,7 @@ public final class ModuleActions {
             settings.append(toggle.key).append('=').append(prefs.getBoolean(toggle.key, toggle.fallback)).append(' ');
         settings.append("duration=").append(prefs.getInt(SettingsSchema.DURATION, MixConfig.DEFAULT_DURATION_MS));
         return "叠拍 FizzFade 诊断  " + DateFormat.getDateTimeInstance().format(new Date())
-            + "\n汽水版本：" + target + "\n适配版本：" + ModuleStatus.HOST_VERSION + " / " + ModuleStatus.HOST_VERSION_CODE
+            + "\n汽水版本：" + target + "\n适配版本：官网 " + ModuleStatus.HOST_VERSION + "（" + ModuleStatus.HOST_VERSION_CODE + " / " + ModuleStatus.HOST_VERSION_CODE_LATEST + "）"
             + "\n模块：" + HostDiagnostics.VERSION + " · Legacy Xposed API 82"
             + "\n宿主已加载模块：" + prefs.getString("host_module_version", "未收到版本回报")
             + "\n设备：" + Build.MODEL + " · Android " + Build.VERSION.RELEASE + " / API " + Build.VERSION.SDK_INT

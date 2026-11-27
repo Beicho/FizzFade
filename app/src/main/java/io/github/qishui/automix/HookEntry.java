@@ -104,7 +104,7 @@ public final class HookEntry implements IXposedHookLoadPackage, IXposedHookZygot
             catch (Throwable error) { diagnostics.error("tab_install_failed", error); }
             try { SmoothHook.install(context, loader, diagnostics); }
             catch (Throwable error) { diagnostics.error("refresh_install_failed", error); }
-            if (!HostBridge.VERSION.equals(info.versionName) || info.getLongVersionCode() != HostBridge.VERSION_CODE) {
+            if (!HostBridge.supported(info.versionName, info.getLongVersionCode())) {
                 diagnostics.event("version_rejected", "不是已适配版本，未安装播放 hook");
                 diagnostics.status("未适配汽水 " + info.versionName + " / " + info.getLongVersionCode(), 0);
                 diagnostics.pollConfig();

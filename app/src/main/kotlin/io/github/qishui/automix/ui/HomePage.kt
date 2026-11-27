@@ -262,7 +262,7 @@ private fun SetupCard(activity: Activity) {
 private fun InfoCard(status: ModuleStatus) {
     Section("信息") {
         Column(modifier = Modifier.padding(16.dp)) {
-            InfoLine("适配", "官网汽水 " + ModuleStatus.HOST_VERSION + " / " + ModuleStatus.HOST_VERSION_CODE)
+            InfoLine("适配", "官网汽水 " + ModuleStatus.HOST_VERSION + "（" + ModuleStatus.HOST_VERSION_CODE + " / " + ModuleStatus.HOST_VERSION_CODE_LATEST + "）")
             InfoLine("宿主已加载", status.loadedVersion.ifEmpty { "尚未连接" })
             InfoLine("设备", Build.MODEL + " · Android " + Build.VERSION.RELEASE, last = true)
         }

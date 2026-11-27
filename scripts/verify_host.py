@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Read raw DEX declarations (not JADX aliases) and check this adapter's contract."""
+"""Read raw DEX declarations (not JADX aliases) and check this adapter's contract.
+
+Both official builds this module supports pass: 21.6.0 and 21.8.0. Their only contract
+difference is the wrapper's player accessor pair, checked per build at the end.
+"""
 import argparse
 import hashlib
 import json
@@ -8,7 +12,11 @@ import struct
 import zipfile
 from pathlib import Path
 
-EXPECTED_SHA256 = "09da4d38716e8d0fb2b5cbaa8d6454a88f9b657f6a7a38facd283bacb204ae22"
+# sha256 -> official build name; the module supports both, so either one passes.
+EXPECTED_SHA256 = {
+    "09da4d38716e8d0fb2b5cbaa8d6454a88f9b657f6a7a38facd283bacb204ae22": "21.6.0",
+    "edb0cc9cac46c234d8b3879e0f52a5cb987351e6aa69e40d2a4d5e2a5f144676": "21.8.0",
+}
 P = "com.luna.common.player."
 B = "com.luna.biz.playing.player.bach."
 
@@ -106,7 +114,7 @@ def main():
     methods = {
         B + "MediaPlayerFactory": ["a(" + desc(P + "bach.IInnerPlayerController") + desc(P + "mediaplayer.MediaPlayerConfig") + ")" + media, "d()Z"],
         B + "prerender.PreRenderSettingsConfig": ["F()Z"],
-        B + "prerender.MediaPlayerWrapper": ["H2()" + media, "I2()" + media,
+        B + "prerender.MediaPlayerWrapper": [
             "c3(" + desc(P + "prerender.PreRenderTrigger") + playable + ")Z",
             "onPlaybackTimeChanged(" + playable + "J)V", "onPlaybackTimeChangedFast(" + playable + "J)V",
             "onRenderStart(" + playable + ")V", "triggerPreRender(" + desc(P + "prerender.PreRenderTrigger") + playable + ")V",
@@ -164,14 +172,23 @@ def main():
                     checked.append(label)
                 else:
                     failures.append(label)
-    if sha != EXPECTED_SHA256:
-        failures.append("APK SHA-256 differs from the official analyzed build")
-    report = {"apk_sha256": sha, "passed": not failures, "checked_count": len(checked),
+    # 21.8.0 renamed the wrapper's player accessors once: current/upcoming are G2/H2 there and H2/I2
+    # before. Only the new build has a zero-argument G2 (21.6.0's argument-taking G2 is another
+    # method), so its presence selects the pair.
+    wrapper = found.get(B + "prerender.MediaPlayerWrapper", {}).get("methods", [])
+    accessors = ["G2()" + media, "H2()" + media] if "G2()" + media in wrapper else ["H2()" + media, "I2()" + media]
+    for signature in accessors:
+        label = B + "prerender.MediaPlayerWrapper#" + signature
+        (checked if signature in wrapper else failures).append(label)
+    if sha not in EXPECTED_SHA256:
+        failures.append("APK SHA-256 is not one of the official analyzed builds")
+    report = {"apk_sha256": sha, "apk_build": EXPECTED_SHA256.get(sha, "unknown"),
+              "passed": not failures, "checked_count": len(checked),
               "missing": failures, "checked": checked}
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    print(json.dumps({key: report[key] for key in ("passed", "checked_count", "missing")}, ensure_ascii=False, indent=2))
+    print(json.dumps({key: report[key] for key in ("apk_build", "passed", "checked_count", "missing")}, ensure_ascii=False, indent=2))
     raise SystemExit(1 if failures else 0)
 
 

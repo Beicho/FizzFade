@@ -5,11 +5,19 @@ import java.lang.reflect.Method;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-/** Exact adapter for the official 21.6.0 / 100216030 APK. No heuristic hooks. */
+/** Exact adapter for the official 21.6.0 / 21.8.0 APKs. No heuristic hooks. */
 final class HostBridge {
-    static final String VERSION = "21.6.0";
-    static final long VERSION_CODE = 100216030L;
+    static final String VERSION_LEGACY = "21.6.0", VERSION_LATEST = "21.8.0";
+    static final long VERSION_CODE_LEGACY = 100216030L, VERSION_CODE_LATEST = 100218030L;
+
+    static boolean supported(String versionName, long versionCode) {
+        return (VERSION_LEGACY.equals(versionName) && versionCode == VERSION_CODE_LEGACY)
+            || (VERSION_LATEST.equals(versionName) && versionCode == VERSION_CODE_LATEST);
+    }
+
     final Class<?> wrapperClass, innerClass, factoryClass, engineClass;
+    /** The host build behind this loader; 21.8.0 renamed the wrapper's player accessors once. */
+    final String hostBuild;
     final Method factoryCreate, current, upcoming, kit, execute, setVolume, release, stop, pause, play, requestPreRender, automaticPageRoute;
     final Field engineField, streamField, interceptorField, factoryType;
     final Object reason, trigger, preRenderType, mainType, unconsumedAutomaticResult;
@@ -44,8 +52,18 @@ final class HostBridge {
         Class<?> config = cls(loader, "com.luna.common.player.mediaplayer.MediaPlayerConfig");
         Class<?> executor = cls(loader, "com.luna.common.player.executor.IPlayerThreadExecutor");
         factoryCreate = method(factoryClass, "a", innerApi, config);
-        current = method(wrapperClass, "H2");
-        upcoming = method(wrapperClass, "I2");
+        // 21.8.0 renamed this pair once: current/upcoming are G2/H2 there and H2/I2 in 21.6.0.
+        // Only the new build has a zero-argument G2 (21.6.0's G2 takes arguments), so it tells them apart.
+        boolean renamed = false;
+        try { wrapperClass.getDeclaredMethod("G2"); renamed = true; }
+        catch (NoSuchMethodException legacy) { }
+        current = method(wrapperClass, renamed ? "G2" : "H2");
+        upcoming = method(wrapperClass, renamed ? "H2" : "I2");
+        if (current.getReturnType().isPrimitive() || upcoming.getReturnType().isPrimitive()
+            || current.getReturnType() != upcoming.getReturnType()) {
+            throw new NoSuchMethodException("Host player accessors changed");
+        }
+        hostBuild = renamed ? VERSION_LATEST : VERSION_LEGACY;
         requestPreRender = method(wrapperClass, "c3", cls(loader, "com.luna.common.player.prerender.PreRenderTrigger"), playable);
         kit = method(media, "k3");
         execute = method(executor, "X", Runnable.class);

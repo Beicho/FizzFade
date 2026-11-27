@@ -18,7 +18,7 @@ mkdir -p "$project_dir/build/tests"
 
 "$JAVA_HOME/bin/java" -XX:ActiveProcessorCount=2 -cp "$project_dir/build/tests" io.github.qishui.automix.BeatMatchTest
 
-# Lyric model, clock and the shape-matched host contract (fixtures mirror the 21.6.0 field shapes).
+# Lyric model, clock and the shape-matched host contract (fixtures mirror the field shapes both supported builds share).
 mkdir -p "$project_dir/build/lyrics-tests"
 "$JAVA_HOME/bin/javac" -encoding UTF-8 --release 8 -d "$project_dir/build/lyrics-tests" \
     $(find "$project_dir/tests/lyrics-fixtures" -name '*.java') \

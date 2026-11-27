@@ -2,6 +2,8 @@ package com.luna.biz.playing.player.bach.prerender;
 import com.luna.common.player.mediaplayer.impl.MediaPlayer;import com.luna.common.player.mediaplayer.*;import com.luna.common.player.queue.api.IPlayable;import com.luna.common.player.prerender.PreRenderTrigger;import io.github.qishui.automix.TestRuntime;
 public final class MediaPlayerWrapper {
  public MediaPlayer current,next;public final Provider z=new Provider();public int requests;public boolean reject;
+ /** 21.6.0 shape: the player accessors are H2 (current) and I2 (next); its argument-taking G2 is a different method. */
+ private boolean G2(IPlayable item,PreRenderTrigger trigger){return false;}
  public MediaPlayer H2(){return current;}public MediaPlayer I2(){return next;}
  public boolean c3(PreRenderTrigger trigger,IPlayable item){requests++;return !reject;}
  public void onPlaybackTimeChanged(IPlayable i,long t){} public void onPlaybackTimeChangedFast(IPlayable i,long t){}

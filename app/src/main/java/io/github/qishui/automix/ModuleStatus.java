@@ -11,8 +11,8 @@ import java.util.Map;
 
 /** What the settings screens show about the host connection, read from the module's own prefs. */
 public final class ModuleStatus {
-    public static final String HOST = "com.luna.music", HOST_VERSION = "21.6.0";
-    public static final long HOST_VERSION_CODE = 100216030L;
+    public static final String HOST = "com.luna.music", HOST_VERSION = "21.6.0 / 21.8.0";
+    public static final long HOST_VERSION_CODE = 100216030L, HOST_VERSION_CODE_LATEST = 100218030L;
     public static final String MODULE_VERSION = HostDiagnostics.VERSION;
     /** The host reports every 2 s while it runs; older than this means it is not running. */
     public static final long LIVE_MS = 12000;
@@ -50,7 +50,7 @@ public final class ModuleStatus {
         loadedVersion = prefs.getString("host_module_version", "");
         completed = prefs.getInt("completed", 0);
         beatCompleted = prefs.getInt("beat_completed", 0);
-        versionMismatch = version != null && code != HOST_VERSION_CODE;
+        versionMismatch = version != null && code != HOST_VERSION_CODE && code != HOST_VERSION_CODE_LATEST;
         staleModule = lastSeen != 0 && !loadedVersion.isEmpty() && !HostDiagnostics.VERSION.equals(loadedVersion);
         List<String> waiting = new ArrayList<>();
         boolean inCache = true;
